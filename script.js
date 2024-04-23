@@ -59,7 +59,7 @@ function showImagePopup(imageUrl) {
 
 // Función para reproducir el sonido
 function playSound() {
-  const audio = new Audio("sound.mp3"); // Ruta del archivo de sonido
+  const audio = new Audio("bien.mp3"); // Ruta del archivo de sonido
   audio.play();
 }
 
