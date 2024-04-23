@@ -1,6 +1,9 @@
 // Seleccionar el contenedor SVG
 const svg = d3.select("svg");
 
+//Selecciono el contenedor del video
+const video = document.getElementById("video");
+
 // Variable para el seguimiento del estado del menú
 let isSubMenuVisible = false;
 
@@ -63,6 +66,31 @@ function playSound() {
   audio.play();
 }
 
+//Función que maneja el click en cada subcírculo
+function handleSubcircleClick(estadoAnimo){
+  playVideo(estadoAnimo);
+  backToMain();
+}
+
+/** Función para cambiar el video que se reproduce
+ * @param clickEvent Puede ser un string con el nombre de un estado de ánimo o un evento de click
+ */
+function playVideo(clickEvent){
+  console.log("PLAY VIDEO",clickEvent)
+  console.log(video)
+  video.pause();
+  if(typeof url === "string") { //Reviso haber recibido un string, en ese caso es una URL
+    video.children[0].src = "./videos/"+clickEvent+".mp4";
+  } else {
+    //Obtengo el nombre de la imagen adentro del círculo clickeado
+    const estadoAnimo = clickEvent.target.nextSibling.__data__.substring(0,clickEvent.target.nextSibling.__data__.length-4);
+    console.log(estadoAnimo)
+    video.children[0].src = "./videos/"+estadoAnimo+".mp4";
+  }
+  video.load();
+  video.play();
+}
+
 // Datos de ejemplo para las imágenes
 const imagePaths = ["auch.png", "confundido.png", "contento.png", "triste.png"];
 
@@ -99,8 +127,9 @@ const subCircles = svg.selectAll(".subCircle")
   .attr("stroke", "black")
   .attr("stroke-width", 2)
   .style("opacity", 0)
-  .on("click", function(d) {
-    showImagePopup(d); // Llamar a la función showImagePopup con la URL de la imagen correspondiente
+  .on("click", function(clickEvent) {
+    playVideo(clickEvent)
+    //showImagePopup(d); // Llamar a la función showImagePopup con la URL de la imagen correspondiente
   });
 
 const subCircleImages = svg.selectAll(".subCircleImage")
